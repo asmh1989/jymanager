@@ -6,6 +6,8 @@ import { Layout, Card, Form } from 'antd';
 import './SignIn.css'
 import Login from '../components/NormalLoginForm.js';
 import Footer from '../components/Footer.js';
+import {Helmet} from "react-helmet";
+import constant from '../constant.js';
 
 const { Header, Content } = Layout;
 
@@ -18,7 +20,8 @@ class Sign extends Component {
 
         const WrappedNormalLoginForm = Form.create()(Login);
 
-        return (<div>
+        return (
+        <div>
             <Layout>
                 <Header className="Header">帐号</Header>
                 <Content className="Content">
@@ -28,6 +31,10 @@ class Sign extends Component {
                 </Content>
                 <Footer />
             </Layout>
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>登录{constant.title}</title>
+            </Helmet>
         </div>)
     }
 }

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
-import { Layout, Card, Form } from 'antd';
+import { Layout } from 'antd';
 
 
-const { Header, Footer, Content } = Layout;
+const {  Footer } = Layout;
 
 const style = {
     'text-align': 'center',
