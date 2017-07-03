@@ -20,14 +20,16 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "dev": "egg-bin dev",
+    "start": "node index.js --port 7008",
+    "dev": "egg-bin dev --port 7008",
     "test": "npm run lint -- --fix && npm run test-local",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
     "lint": "eslint .",
     "ci": "npm run lint && npm run cov",
-    "autod": "autod"
+    "autod": "autod",
+    "buildweb": "cd web && yarn build",
+    "debugweb":"cd web && yarn start"
   },
   "ci": {
     "version": "6, 8"

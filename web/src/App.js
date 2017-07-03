@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Button, message } from 'antd'
 
 class App extends Component {
   render() {
@@ -13,6 +14,17 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
+
+        <Button onClick={
+          async () => {
+            let res = await fetch('/api/test');
+            if(res.ok){
+              let result = await res.text();
+              message.info(`${result}`);
+            } else {
+              message.error(`/api/test, Get 失败`);
+            }
+          }}> api test</Button>
       </div>
     );
   }

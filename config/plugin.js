@@ -1,4 +1,4 @@
 'use strict';
 
-// had enabled by egg
-// exports.static = true;
+//had enabled by egg
+exports.static = true;

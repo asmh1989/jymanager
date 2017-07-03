@@ -8,3 +8,4 @@ run/
 *.swp
 web/build/
 web/node_modules/
+build/

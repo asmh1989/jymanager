@@ -1,8 +1,10 @@
 {
-  "name": "web",
+  "name": "qymanager",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:7008/",
   "dependencies": {
+    "antd": "^2.11.2",
     "autoprefixer": "7.1.1",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
@@ -86,5 +88,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.2.1"
   }
 }
