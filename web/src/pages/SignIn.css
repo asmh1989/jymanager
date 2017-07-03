@@ -1,0 +1,32 @@
+.Header {
+  text-align: center;
+  /*background: white;*/
+  font-size: 26px;
+  color: white;
+}
+
+.Footer {
+  text-align: center;
+  
+}
+
+.Layout {
+    background: white;
+    display: flex;
+    height: 100%;
+}
+
+.Content {
+    width: 100%;
+    padding: 20px;
+    min-height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Card {
+    width: 30%;
+    min-width: 120px;
+    height: 300px;
+}
