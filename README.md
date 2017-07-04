@@ -1,4 +1,4 @@
-# qymanager-egg
+# jymanager-egg
 
 
 
@@ -12,7 +12,6 @@ see [egg docs][egg] for more detail.
 ```shell
 $ npm install
 $ npm run dev
-$ open http://localhost:7001/news
 ```
 
 ### Deploy

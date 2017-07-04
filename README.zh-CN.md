@@ -1,4 +1,4 @@
-# qymanager-egg
+# jymanager-egg
 
 
 
