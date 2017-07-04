@@ -3,9 +3,7 @@ import { instanceOf } from 'prop-types';
 
 import { withCookies, Cookies } from 'react-cookie';
 import { Redirect, Link } from 'react-router-dom'
-import { Helmet } from "react-helmet";
-import constant from '../constant.js';
-import { Layout, Menu, Avatar, Icon, Dropdown } from 'antd';
+import { Layout, Menu, Avatar, Dropdown } from 'antd';
 import Footer from '../components/Footer.js';
 import './App.css'
 
@@ -22,16 +20,20 @@ class Home extends PureComponent {
     signout: Boolean,
   }
 
-  constructor(){
-    super()
+  constructor(props) {
+    super(props)
+
+    let token = props.cookies.get('token');
 
     this.state = {
       signout: false,
+      token: token ? token : null
     }
+    // console.log('get token: ', token);
   }
 
-  Logout = ()=>{
-    const {cookies} = this.props;
+  Logout = () => {
+    const { cookies } = this.props;
     cookies.remove('token', { path: '/' });
     this.setState({
       signout: true,
@@ -39,23 +41,28 @@ class Home extends PureComponent {
   }
 
   accountMenu = () => {
-      return (
-          <Menu>
-            <Menu.Item>
-              <a target="_blank" >个人信息</a>
-            </Menu.Item>
-            <Menu.Divider style={{ padding: 10 }} />
-            <Menu.Item>
-              <a target="_blank" onClick={this.Logout}>注销</a>
-            </Menu.Item>
-          </Menu>
-        );
+    return (
+      <Menu>
+        <Menu.Item>
+          <a target="_blank" >个人信息</a>
+        </Menu.Item>
+        <Menu.Divider style={{ padding: 10 }} />
+        <Menu.Item>
+          <a target="_blank" onClick={this.Logout}>注销</a>
+        </Menu.Item>
+      </Menu>
+    );
+  }
+
+  componentDidMount() {
+    const { token } = this.state;
+    
+
+
   }
 
   render() {
-    const { signout = false } = this.state;
-
-    const token = this.props.cookies.get('token');
+    const { signout = false, token } = this.state;
 
     if (token && !signout) {
       const { children, location } = this.props;
@@ -66,8 +73,6 @@ class Home extends PureComponent {
       if (index > 0) {
         activeMenuItem = activeMenuItem.substr(0, index + 1);
       }
-
-      // const { member, tokenValid } = this.state;
 
       return (
         <div>
@@ -106,9 +111,6 @@ class Home extends PureComponent {
             </Content>
             <Footer />
           </Layout>
-          <Helmet>
-            <title>首页{constant.title}</title>
-          </Helmet>
         </div>
       );
     } else {
