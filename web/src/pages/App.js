@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
-import { instanceOf } from 'prop-types';
-
-import { withCookies, Cookies } from 'react-cookie';
+import { withCookies } from 'react-cookie';
 import { Redirect, Link } from 'react-router-dom'
-import { Layout, Menu, Avatar, Dropdown } from 'antd';
+import { Layout, Menu, Avatar, Dropdown, message } from 'antd';
 import Footer from '../components/Footer.js';
 import './App.css'
 
@@ -11,10 +9,7 @@ const { Header, Content } = Layout;
 
 const MenuItem = Menu.Item;
 
-class Home extends PureComponent {
-  static propTypes = {
-    cookies: instanceOf(Cookies).isRequired
-  };
+class App extends PureComponent {
 
   static state = {
     signout: Boolean,
@@ -56,9 +51,30 @@ class Home extends PureComponent {
 
   componentDidMount() {
     const { token } = this.state;
+    const { userChange = ()=>{} } = this.props;
     
+    let checkToken = async() => {
+      let result = await fetch(`/api/token/${token}?data=1`);
+      if(result.ok){
+        let res = await result.json();
+        if(res.ret === 0){
+          this.setState({
+            user: res.user,
+            account: res.account
+          });
+          userChange(res);
+        } else {
+          message.warning(res.msg);
+          this.setState({
+            token:null
+          });
+        }
+      } else {
+        message.error(result.statusText);
+      }
+    } 
 
-
+    checkToken();
   }
 
   render() {
@@ -108,7 +124,7 @@ class Home extends PureComponent {
             </Header>
             <Content className="Content">
               {children}
-            </Content>
+              </Content>
             <Footer />
           </Layout>
         </div>
@@ -122,4 +138,4 @@ class Home extends PureComponent {
   }
 }
 
-export default withCookies(Home);
+export default withCookies(App);

@@ -1,0 +1,14 @@
+.Content {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Loading {
+    padding: 10px;
+    display: flex;
+    height:100%;
+    align-items: center;
+    justify-content: center;
+}

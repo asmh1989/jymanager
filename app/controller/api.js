@@ -15,6 +15,13 @@ module.exports = app => {
         await service.account.Signin(username, password, remember);
     }
 
+    async checkToken() {
+        const {ctx, service} = this;
+        let token = ctx.params.token;
+        let data = ctx.query.data;
+
+        await service.account.tokenCheck(token, data);
+    }
     
 
   }
