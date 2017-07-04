@@ -1,24 +1,88 @@
 import React, { Component } from 'react'
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Redirect } from 'react-router'
+import { Cookies } from 'react-cookie';
+import { instanceOf } from 'prop-types';
+
+import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 const FormItem = Form.Item;
 
 export default class NormalLoginForm extends Component {
+  static state = {
+    goHome: Boolean,
+  }
+
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired,
+  };
+
+  constructor() {
+    super();
+    this.state = {
+      goHome: false,
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
-      }
-      this.props.form.setFields({
-        userName: {
-          value: '',
-          errors: [new Error('用户名不存在')]
+        // console.log('Received values of form: ', values);
+        let rem = values.remember ? '&remember=1' : '';
+        let result = await fetch(`/api/login?username=${values.username}&password=${values.password}${rem}`);
+        if (result.ok) {
+          let res = await result.json();
+          if (res.ret === 0) {
+            if (res.token) {
+              message.success('登录成功');
+              this.props.cookies.set('token', res.token, { path: '/' });
+              setTimeout(() => {
+                this.setState({
+                  goHome: true,
+                })
+              }, 200);
+            } else {
+              message.warning('登录异常,请询问管理员');
+            }
+          } else if (res.ret === 1) {
+            this.props.form.setFields({
+              username: {
+                value: '',
+                errors: [new Error(res.msg)]
+              },
+              password: {
+                value: ''
+              }
+            });
+          } else if (res.ret === 2) {
+            this.props.form.setFields({
+              password: {
+                value: '',
+                errors: [new Error(res.msg)]
+              }
+            });
+          }
+        } else {
+          if (result.status === 500) {
+            message.error('连接服务器失败');
+          } else {
+            message.error(result.statusText);
+          }
         }
-      })
+      }
+
+
     });
   }
   render() {
     const { getFieldDecorator } = this.props.form;
+
+    const { goHome } = this.state;
+    if (goHome) {
+      return (
+        <Redirect push to="/" />
+      )
+    }
+
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>

@@ -3,16 +3,49 @@
  */
 'use strict';
 
-const PATH = Symbol('Application#path');
+const password = Symbol('Application#pwd');
+const password2 = Symbol('Application#pwd2');
+const bcrypt = require('bcrypt');
+const shortid = require('shortid');
 
-global.getSchema = (data) => {
-	return Object.assign(data, { date: new Date() });
-};
-
-const fs = require('fs');
-const os = require('os');
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$');
 
 module.exports = {
+	async pwd() {
+		if (!this[password]) {
+			let accountModel = this.model.Account;
+			let result = await this.findOne(accountModel, { username: 'admin' });
+			if(result){
+				this[password] = result.password;
+			} else {
+				let passwd = bcrypt.hashSync('sunminhua', 8);
+				await this.save(accountModel, {
+					username:'admin',
+					password: passwd,
+					permission: 0
+				}, {username: 'admin'})
+				
+				this[password] = passwd;
+			}
+		}
+		return this[password];
+	},
+
+	async defaultPwd(){
+		if(!this[password2]){
+			this[password2] = bcrypt.hashSync('123456', 8);
+		}
+
+		return this[password2];
+	},
+
+	generateId(){
+		return shortid.generate();
+	},
+
+	isValid(id){
+		return shortid.isValid(id);
+	},
 
 	async save(model, data, ifParams) {
 		const { ctx } = this;
@@ -44,7 +77,7 @@ module.exports = {
 			return err;
 		})
 	},
-    
+
 	async findOne(model, ifPramrs) {
 		return new Promise((resolve, reject) => {
 			model.findOne(ifPramrs, (err, doc) => {

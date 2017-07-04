@@ -7,7 +7,12 @@ module.exports = app => {
     }
 
     async login() {
-        
+        const {ctx, service} = this;
+        let username = ctx.query.username;
+        let password = ctx.query.password;
+        let remember = ctx.query.remember;
+
+        await service.account.Signin(username, password, remember);
     }
 
     

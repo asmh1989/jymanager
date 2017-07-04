@@ -22,12 +22,12 @@ module.exports = app => {
         specialty: { type: String },                    //专业
         banknumber: { type: String },                   //银行卡号
         bankname: { type: String },                     //开户行
-        gender: { type: boolean },                      //性别, true: 男
+        gender: { type: Boolean },                      //性别, true: 男
         remark: { type: String },                       //备注
         store: { type: String },                        //门店
         icon: { type: String },                         //头像
         idnumbericons: { type: String },                //身份证正反照
-        enable: { type: boolean, default: true },       //删除, 通过改标识来代表
+        enable: { type: Boolean, default: true },       //删除, 通过改标识来代表
     });
 
     return mongoose.model('member', AppSchema);

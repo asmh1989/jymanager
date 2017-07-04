@@ -5,16 +5,22 @@ import {
     Route,
 } from 'react-router-dom'
 
-import Home from './pages/Home.js'
-import Sign from './pages/SignIn.js'
+import Home from './pages/Home.js';
+import Sign from './pages/SignIn.js';
+import Member from './pages/Members.js';
+import House from './pages/Houses.js';
+import Order from './pages/Orders.js';
 
 class Root extends Component {
     render() {
         return (
             <Router>
                 <div>
-                    <Route path="/" component={Home} />
-                    <Route path='/user/sign_in' component={Sign} />
+                    <Route exact path="/" component={Home} />
+                    <Route exact path='/members' component={Member} />
+                    <Route exact path='/orders' component={Order} />
+                    <Route exact path='/houses' component={House} />
+                    <Route exact path="/user/sign_in" component={Sign} />
                 </div>
             </Router>
         );

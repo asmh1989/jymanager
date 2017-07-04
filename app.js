@@ -1,6 +1,5 @@
 'use strict';
 
-
 // app.js
 module.exports = app => {
 

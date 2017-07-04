@@ -4,7 +4,7 @@ import App from './App.js'
 class View extends Component {
     render() {
         return (
-            <App {...this.props}> Homes
+            <App {...this.props}> Members
             </App>
         );
     }

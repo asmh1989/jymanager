@@ -17,7 +17,6 @@ class Sign extends Component {
     };
 
     render() {
-
         const WrappedNormalLoginForm = Form.create()(Login);
 
         return (
@@ -26,13 +25,12 @@ class Sign extends Component {
                 <Header className="Header">帐号</Header>
                 <Content className="Content">
                     <Card className="Card" title="登录">
-                        <WrappedNormalLoginForm />
+                        <WrappedNormalLoginForm  cookies={this.props.cookies}/>
                     </Card>
                 </Content>
                 <Footer />
             </Layout>
             <Helmet>
-                <meta charSet="utf-8" />
                 <title>登录{constant.title}</title>
             </Helmet>
         </div>)
