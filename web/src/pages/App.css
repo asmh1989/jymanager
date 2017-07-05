@@ -25,9 +25,9 @@
 }
 
 .Content {
-    width: 100%;
     padding: 20px;
     min-height: 1080px;
+    min-width: 720px;
     display: flex;
     justify-content: center;
     align-items: center;

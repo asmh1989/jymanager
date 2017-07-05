@@ -2,12 +2,24 @@ import React, { Component } from 'react';
 import App from './App.js'
 import { Helmet } from "react-helmet";
 import constant from '../constant.js';
-import { Layout, Menu, Icon, Breadcrumb, Affix, Spin } from 'antd';
+import { Layout, Menu, Icon, Breadcrumb } from 'antd';
 
 import './Members.css'
+import NewMember from '../components/NewMember.js'
+import { withCookies } from 'react-cookie';
 
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
+const cookie_key = 'members_key';
+const cookie_openkey = 'members_openkey';
+
+const menuOpenKeys = {
+    '1':'sub1',
+    '2':'sub1',
+    '3':'sub1',
+    '4':'sub2',
+    '5':'sub2', 
+}
 
 class View extends Component {
 
@@ -15,23 +27,28 @@ class View extends Component {
         console.log('user update: ', data);
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        let key = props.cookies.get(cookie_key);
+        let openkey = props.cookies.get(cookie_openkey);
         this.state = {
-            contentLoading: true,
-            key: 1,
+            key: key ? Number.parseInt(key, 10) : 1,
+            openkey: openkey ? openkey : menuOpenKeys[1],
         }
     }
 
     componentDidMount() {
     }
 
-    menuSelect = ({ key }) => {
-        console.log(`menuselect : `, key);
+    menuSelect = (e) => {
+        console.log(`menuselect : `, e);
+        let newKey = Number.parseInt(e.key, 10);
         this.setState({
-            key: Number.parseInt(key),
-            contentLoading: true,
+            key: newKey,
+            openkey: menuOpenKeys[newKey],
         });
+        this.props.cookies.set(cookie_key, newKey, {path: '/'});
+        this.props.cookies.set(cookie_openkey, menuOpenKeys[newKey], {path: '/'});
     }
 
     getBreadcrumb = (key) => {
@@ -75,42 +92,37 @@ class View extends Component {
 
     getMainContent = (key) => {
         if (key === 1) {
-            this.showAllMembers();
+            // this.showAllMembers();
         } else if (key === 2) {
-            this.addNewMember();
+            
+            return (
+                <NewMember />
+            )
         } else if (key === 3) {
-            this.importMembers();
+            // this.importMembers();
         } else if (key === 4) {
-            this.showStores();
+            // this.showStores();
         } else if (key === 5) {
-            this.addNewStore();
+            // this.addNewStore();
         }
     }
 
     render() {
-        const { key, contentLoading } = this.state;
+        const { key, openkey } = this.state;
 
         let _Breadcrumb = this.getBreadcrumb(key);
 
-        let mainContent;
-        if (contentLoading) {
-            mainContent = <div className='Loading'>
-                <Spin size="large" tip="加载中, 请稍候..."/>
-            </div>
-        } else {
-            mainContent = this.getMainContent(key);
-        }
+        let mainContent = this.getMainContent(key);
 
         return (
             <App userChange={this.update} {...this.props}>
                 <Layout>
                     <Sider width={200} style={{ background: '#fff' }}>
 
-                        <Affix>
                             <Menu
                                 mode="inline"
-                                defaultSelectedKeys={['1']}
-                                defaultOpenKeys={['sub1']}
+                                defaultSelectedKeys={[`${key}`]}
+                                defaultOpenKeys={[openkey]}
                                 style={{ borderRight: 0 }}
                                 onSelect={this.menuSelect}
                             >
@@ -124,7 +136,6 @@ class View extends Component {
                                     <Menu.Item key="5">新增门店</Menu.Item>
                                 </SubMenu>
                             </Menu>
-                        </Affix>
                     </Sider>
                     <Layout style={{ padding: '0 24px ' }}>
                         {_Breadcrumb}
@@ -142,4 +153,4 @@ class View extends Component {
     }
 }
 
-export default View
+export default withCookies(View)

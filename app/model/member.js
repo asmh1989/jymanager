@@ -3,7 +3,6 @@
 module.exports = app => {
     const mongoose = app.mongoose;
     const AppSchema = new mongoose.Schema({
-        userid: { type: String },                       //用户id, 唯一
         name: { type: String },                         //姓名
         job: { type: String },                          //职位
         date: { type: Date, default: Date.now },        //入职日期
@@ -13,7 +12,7 @@ module.exports = app => {
         introduceri: { type: String },                  //介绍人
         master: { type: String },                       //师傅
         idnumber: { type: String },                     //身份证号
-        maritalstatus: { type: Boolean },               //是否结婚
+        maritalstatus: { type: String },               //是否结婚
         phone: { type: String },                        //手机
         address: { type: String },                      //户籍地址
         addressnow: { type: String },                   //现住址
@@ -22,7 +21,7 @@ module.exports = app => {
         specialty: { type: String },                    //专业
         banknumber: { type: String },                   //银行卡号
         bankname: { type: String },                     //开户行
-        gender: { type: Boolean },                      //性别, true: 男
+        gender: { type: String },                       //性别
         remark: { type: String },                       //备注
         store: { type: String },                        //门店
         icon: { type: String },                         //头像
