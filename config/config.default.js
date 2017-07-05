@@ -16,10 +16,18 @@ module.exports = appInfo => {
     //   dir: path.join(appInfo.baseDir, 'web/build')
     // };
 
+    config.cors = {
+        credentials: true,
+    }
+    
     config.security = {
         csrf: {
-            enable: false
+            enable: false,
         },
+        domainWhiteList: [
+            'http://localhost:3000',
+            'http://127.0.0.1:3000'
+        ]
     };
 
     config.mongoose = {

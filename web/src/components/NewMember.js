@@ -34,7 +34,7 @@ class MemberForm extends Component {
     }
 
     normFile = (e) => {
-        console.log('Upload event:', e);
+        // console.log('Upload event:', e);
         if (Array.isArray(e)) {
             return e;
         }
@@ -334,11 +334,11 @@ class MemberForm extends Component {
                 label="身份证正反照"
                 extra="两张,确保照片清晰"
                 >
-                {getFieldDecorator('upload', {
-                    valuePropName: 'idnumbericons',
+                {getFieldDecorator('idnumbericons', {
+                    valuePropName: 'fileList',
                     getValueFromEvent: this.normFile,
                 })(
-                    <Upload name="logo" action="/upload.do" listType="picture">
+                    <Upload name="logo" action="http://localhost:7008/api/upload" listType="picture" accept="image/*">
                         <Button>
                             <Icon type="upload" /> 上传
                         </Button>
