@@ -11,7 +11,7 @@ const shortid = require('shortid');
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$');
 
 module.exports = {
-	async pwd() {
+	async adminPwd() {
 		if (!this[password]) {
 			let accountModel = this.model.Account;
 			let result = await this.findOne(accountModel, { username: 'admin' });
