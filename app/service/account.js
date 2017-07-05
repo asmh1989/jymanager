@@ -51,7 +51,7 @@ module.exports = app => {
             const { app, ctx } = this;
             let accountModel = app.model.Account;
 
-            await app.pwd();
+            await app.adminPwd();
             let result = await app.findOne(accountModel, { username });
             if (!result) {
                 ctx.body = {
