@@ -8,6 +8,7 @@ import './Members.css'
 import NewMember from '../components/NewMember.js'
 import { withCookies } from 'react-cookie';
 
+const querystring = require('querystring');
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
 const cookie_key = 'members_key';
@@ -29,12 +30,6 @@ class View extends Component {
 
     constructor(props) {
         super(props);
-        let key = props.cookies.get(cookie_key);
-        let openkey = props.cookies.get(cookie_openkey);
-        this.state = {
-            key: key ? Number.parseInt(key, 10) : 1,
-            openkey: openkey ? openkey : menuOpenKeys[1],
-        }
     }
 
     componentDidMount() {
@@ -43,12 +38,8 @@ class View extends Component {
     menuSelect = (e) => {
         console.log(`menuselect : `, e);
         let newKey = Number.parseInt(e.key, 10);
-        this.setState({
-            key: newKey,
-            openkey: menuOpenKeys[newKey],
-        });
-        this.props.cookies.set(cookie_key, newKey, {path: '/'});
-        this.props.cookies.set(cookie_openkey, menuOpenKeys[newKey], {path: '/'});
+        const {history, location} = this.props;
+        history.push(`${location.pathname}?menu=${menuOpenKeys[newKey]}&key=${newKey}`);
     }
 
     getBreadcrumb = (key) => {
@@ -108,8 +99,17 @@ class View extends Component {
     }
 
     render() {
-        const { key, openkey } = this.state;
-
+        const {location} = this.props;
+        let str = location.search;
+        let key = 1;
+        let openkey = menuOpenKeys[1];
+        if(str && str.indexOf('menu') != -1 && str.indexOf('key') != -1){
+            str = str.substring(1);
+            const query = querystring.parse(str);
+            key =  Number.parseInt(query.key, 10);;
+            openkey = query.menu;
+        }
+        
         let _Breadcrumb = this.getBreadcrumb(key);
 
         let mainContent = this.getMainContent(key);
