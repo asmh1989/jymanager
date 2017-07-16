@@ -11,8 +11,6 @@ import { withCookies } from 'react-cookie';
 const querystring = require('querystring');
 const { Content, Sider } = Layout;
 const { SubMenu } = Menu;
-const cookie_key = 'members_key';
-const cookie_openkey = 'members_openkey';
 
 const menuOpenKeys = {
     '1':'sub1',
@@ -26,10 +24,6 @@ class View extends Component {
 
     update = (data) => {
         console.log('user update: ', data);
-    }
-
-    constructor(props) {
-        super(props);
     }
 
     componentDidMount() {
@@ -103,7 +97,7 @@ class View extends Component {
         let str = location.search;
         let key = 1;
         let openkey = menuOpenKeys[1];
-        if(str && str.indexOf('menu') != -1 && str.indexOf('key') != -1){
+        if(str && str.indexOf('menu') !== -1 && str.indexOf('key') !== -1){
             str = str.substring(1);
             const query = querystring.parse(str);
             key =  Number.parseInt(query.key, 10);;

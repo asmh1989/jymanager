@@ -74,7 +74,10 @@ class App extends PureComponent {
       }
     } 
 
-    checkToken();
+    if(token){
+      checkToken();
+    }
+
   }
 
   render() {
